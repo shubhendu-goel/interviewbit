@@ -1,0 +1,13 @@
+<div class="justify-content-center ml-auto mr-auto container">
+<h1>New Interview Creation Page</h1>
+<h4>
+	<%= form_with scope: :interview , url: interviews_path, local: true do |f| %>
+		<%= f.label :title %>
+		<%= f.text_field :title, class: 'form-control' %>
+
+		<%= f.label :start %>
+		<%= f.text_field :start, data:{ behavior: "flatpickr" }, class: 'form-control' %>
+		<%= f.submit %>
+	<%end%>
+</h4>
+</div>
