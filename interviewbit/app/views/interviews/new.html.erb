@@ -1,4 +1,5 @@
 <div class="justify-content-center ml-auto mr-auto container">
+<h3><%= link_to 'Home', interviews_path , class: 'btn btn-success'%></h3>
 <h1>New Interview Creation Page</h1>
 <h4>
 	<%= form_with scope: :interview , url: interviews_path, local: true do |f| %>
@@ -21,6 +22,12 @@
 		<div>
 			<%= f.label :end_time %>
 			<%= f.time_field :end_time,  class: 'form-control' %>
+		</div><br>
+		<div>
+			<%= f.label :user %><br>
+		    <p>Press Ctrl to select multiple users</p>
+		    <%= f.collection_select :users, User.all , :id , :name ,  {include_blank: false} , {multiple: true}    %>
+
 		</div>
 		<%= f.submit %>
 	<%end%>

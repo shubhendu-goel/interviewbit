@@ -3,15 +3,23 @@ class InterviewsController < ApplicationController
     @i=Interview.all
     @i=@i.sort_by{|i| i.start}.reverse
     @i=@i.sort_by{|i| i.end}.reverse
-    @u=User.all
   end
   def show
   end
   def create
     params[:interview][:start]=params[:interview][:start]+" "+params[:interview][:start_time]
     params[:interview][:end]=params[:interview][:end]+" "+params[:interview][:end_time]
+    puts params
+    puts "Hello World"
+    puts params[:interview][:users]
+    params[:interview][:users].shift
+    #puts params[:interview][:users][1]
+    @users=User.find(params[:interview][:users])
+    puts @users
     @i=Interview.new(i_para)
+    @i.users << @users
     if @i.save
+      puts "Hello Wrld"
       redirect_to '/'
     else
         render 'new'
@@ -32,6 +40,6 @@ class InterviewsController < ApplicationController
   end
   private 
     def i_para
-        params.require(:interview).permit(:title,:start,:end)
+        params.require(:interview).permit(:title,:start,:users,:end)
     end 
 end
