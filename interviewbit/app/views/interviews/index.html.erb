@@ -1,2 +1,30 @@
-<h1>Interviews#index</h1>
-<p>Find me in app/views/interviews/index.html.erb</p>
+<div class="justify-content-center ml-auto mr-auto container">
+
+<h1>List of all interviews</h1>
+	<h3><%= link_to 'Schedule New Interview', new_interview_path , class: 'btn btn-success'%></h3>
+		<table class="table table-stripped">
+		<thead>
+			<td>Sr. No</td>
+			<td>Title</td>
+			<td colspan="1">Start</td>
+			<td colspan="1">End</td>
+			<td colspan="3">Actions</td>
+		</thead>
+		<% @cnt=0 %>
+		<% @i.each do |i| %>
+	    	<tr>
+	    		<h4>
+	    			<% @cnt=@cnt+1 %>
+		    	<td><%= @cnt %></td>
+		    	<td><%= i.title %></td>
+		    	<td><%= i.start %> </td>
+		    	<td><%= i.end%> </td>
+		    	<td><%= link_to 'View', '/interviews/'+String(i.id) , class: 'btn btn-success' %></td>
+		    	<td><%= link_to 'Edit', edit_interview_url(i) , class: 'btn btn-warning' %></td>
+		    	<td><%= link_to 'Delete', interviews_path+'/'+String(i.id), method: :delete, data: { confirm: 'Are you sure?' } , class: 'btn btn-danger' %></td>
+		    	</h4>
+		    </tr>
+	    <%end%>
+	    </table>
+
+</div>
