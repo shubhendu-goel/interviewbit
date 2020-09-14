@@ -10,7 +10,7 @@
 		    	<%= @u.email %> 
 		    	<br>
 		    	<% if @u.resume.attached? %>
-	    			<%= @u.resume %> 
+	    			<%= link_to 'Resume' ,  url_for(@u.resume) %> 
 	    		<%end%>	    			
 		    </div>
 		</h4>
