@@ -1,2 +1,23 @@
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
+<div class="container ml-auto mr-auto">
+
+	<div class="justify-content-center">
+		<h3><%= link_to 'Home', interviews_path , class: 'btn btn-success'%></h3>
+		<h1>View User</h1>
+		<h4>
+			<div class="row">
+		    	<%= @u.name %>	
+		    	<br>	
+		    	<%= @u.email %> 
+		    	<br>
+		    	<% if @u.resume.attached? %>
+	    			<%= @u.resume %> 
+	    		<%end%>	    			
+		    </div>
+		</h4>
+	    <br>
+	    	<h4>
+	    		<%= link_to 'Edit', edit_user_url(@u) , class: 'btn btn-warning' %>
+	    		<%= link_to 'Delete', user_path(@u), method: :delete, data: { confirm: 'Are you sure?' } , class: 'btn btn-danger' %>
+	    	</h4>
+	</div>
+</div>

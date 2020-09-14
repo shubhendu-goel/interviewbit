@@ -4,9 +4,11 @@ class UsersController < ApplicationController
   end
 
   def show
+    @u=User.find(params[:id])
   end
 
   def create
+    #params[:user][:name]=Strip(params[:user][:name])
     @u=User.new(u_para)
     if @u.save
       redirect_to users_path

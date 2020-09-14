@@ -5,8 +5,15 @@ class InterviewsController < ApplicationController
     @i=@i.sort_by{|i| i.end}.reverse
   end
   def show
+    @i=Interview.find(params[:id])
+    @u=User.joins(:interviews).where("interviews_users.interview_id = ?", params[:id])
+    puts @u
+    puts @i
+  end
+  def edit
   end
   def create
+    #params[:interview][:title]=strip(params[:interview][:title])
     params[:interview][:start]=params[:interview][:start]+" "+params[:interview][:start_time]
     params[:interview][:end]=params[:interview][:end]+" "+params[:interview][:end_time]
     puts params
