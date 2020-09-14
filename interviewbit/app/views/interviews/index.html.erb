@@ -1,13 +1,17 @@
 <div class="justify-content-center ml-auto mr-auto container">
 
 <h1>List of all interviews</h1>
-	<h3><%= link_to 'Schedule New Interview', new_interview_path , class: 'btn btn-success'%></h3>
+	<h3>
+		<%= link_to 'Schedule New Interview', new_interview_path , class: 'btn btn-success'%>
+		<%= link_to 'View Users', users_path , class: 'btn btn-warning'%>
+		<%= link_to 'Create New User', new_user_path , class: 'btn btn-success'%>
+	</h3>
 		<table class="table table-stripped">
 		<thead>
 			<td>Sr. No</td>
 			<td>Title</td>
-			<td colspan="1">Start</td>
-			<td colspan="1">End</td>
+			<td >Start</td>
+			<td >End</td>
 			<td colspan="3">Actions</td>
 		</thead>
 		<% @cnt=0 %>

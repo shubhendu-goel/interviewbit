@@ -1,0 +1,31 @@
+<div class="justify-content-center ml-auto mr-auto container">
+
+<h1>List of all Users</h1>
+	<h3>
+		<%= link_to 'Create New User', new_user_path , class: 'btn btn-success'%>
+		<%= link_to 'View Interviews', interviews_path , class: 'btn btn-warning'%>
+	</h3>
+		<table class="table table-stripped">
+		<thead>
+			<td>Sr. No</td>
+			<td>Name</td>
+			<td>Email</td>
+			<td colspan="3">Actions</td>
+		</thead>
+		<% @cnt=0 %>
+		<% @u.each do |u| %>
+	    	<tr>
+	    		<h4>
+	    			<% @cnt=@cnt+1 %>
+		    	<td><%= @cnt %></td>
+		    	<td><%= u.name %></td>
+		    	<td><%= u.email %> </td>
+		    	<td><%= link_to 'View', '/users/'+String(u.id) , class: 'btn btn-success' %></td>
+		    	<td><%= link_to 'Edit', edit_user_url(u) , class: 'btn btn-warning' %></td>
+		    	<td><%= link_to 'Delete', users_path+'/'+String(u.id), method: :delete, data: { confirm: 'Are you sure?' } , class: 'btn btn-danger' %></td>
+		    	</h4>
+		    </tr>
+	    <%end%>
+	    </table>
+
+</div>
