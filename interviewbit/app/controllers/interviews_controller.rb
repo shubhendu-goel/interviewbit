@@ -6,7 +6,7 @@ class InterviewsController < ApplicationController
   end
   def show
     @i=Interview.find(params[:id])
-    @u=User.joins(:interviews).where("interviews_users.interview_id = ?", params[:id])
+    @u=User.joins(:interviews).where("interviews_users.interview_id = ?", params[:id]).distinct
   end
   def edit
     @i = Interview.find(params[:id])
@@ -38,7 +38,15 @@ class InterviewsController < ApplicationController
   end
 
   def update
+    params[:interview][:start]=params[:interview][:start]+" "+params[:interview][:start_time]
+    params[:interview][:end]=params[:interview][:end]+" "+params[:interview][:end_time]
+    params[:interview][:users].shift
+    users=User.find(params[:interview][:users])
     @i = Interview.find(params[:id])
+    puts users
+    puts @i.users
+    puts "hELLO wORLD\n\n\n"
+    @i.users << users unless @i.users.include? (users)
     if @i.update(i_para)
         redirect_to interviews_path
     else
