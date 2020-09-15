@@ -7,22 +7,16 @@ class InterviewsController < ApplicationController
   def show
     @i=Interview.find(params[:id])
     @u=User.joins(:interviews).where("interviews_users.interview_id = ?", params[:id])
-    puts @u
-    puts @i
   end
   def edit
+    @i = Interview.find(params[:id])
   end
   def create
     #params[:interview][:title]=strip(params[:interview][:title])
     params[:interview][:start]=params[:interview][:start]+" "+params[:interview][:start_time]
     params[:interview][:end]=params[:interview][:end]+" "+params[:interview][:end_time]
-    puts params
-    puts "Hello World"
-    puts params[:interview][:users]
-    params[:interview][:users].shift
-    #puts params[:interview][:users][1]
+    #params[:interview][:users].shift
     @users=User.find(params[:interview][:users])
-    puts @users
     @i=Interview.new(i_para)
     @i.users << @users
     if @i.save
@@ -38,6 +32,12 @@ class InterviewsController < ApplicationController
   end
 
   def update
+    @i = Interview.find(params[:id])
+    if @i.update(i_para)
+        redirect_to interviews_path
+    else
+      render 'edit'
+    end
   end
 
   def destroy

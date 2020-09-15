@@ -1,0 +1,59 @@
+<div style="width: 50%;" class="ml-auto mr-auto">
+	<h3><%= link_to 'All Interviews', interviews_path ,class: 'btn btn-success' %></h3><br>
+<h2>Edit Interview using the below form</h2>
+		<% if @i.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@i.errors.count, "error") %> prohibited
+        this Interview from being saved:
+      </h2>
+      <h3>
+      <ul>
+        <% @i.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+  </h3>
+    </div>
+  <% end %>
+  <h4>
+	<%= form_with scope: :interview , url: interviews_path(@i), html: {method: "patch"}, local: true do |f| %>
+
+		<div>
+			<%= f.label :title %><br>
+		    <%= f.text_field :title ,  :value => @i.title  ,class: 'form-control'%>
+		</div>
+		  	
+		<div>
+			<%= f.label :start %>
+			<% @st=""%>
+			<% @st=@st + @i.start.strftime("%d") %>
+			<% @st=@st +"-"+ @i.start.strftime("%m") %>
+			<% @st=@st + "-20" +@i.start.strftime("%y") %>
+			
+			<%= @st %>
+			<%= f.date_field :start ,  :value => @st,   class: 'form-control' %>
+		</div>
+		<div>
+			<%= f.label :start_time %>
+			<%= @i.start.hour %> : <%= @i.start.min %> : <%= @i.start.sec %>
+			<%= f.time_field :start_time  , class: 'form-control'%>
+		</div>
+		<div>
+			<%= f.label :end %>
+			<%= f.date_field :end,  class: 'form-control' %>
+		</div>
+		<div>
+			<%= f.label :end_time %>
+			<%= f.time_field :end_time,  class: 'form-control' %>
+		</div><br>
+		<div>
+			<%= f.label :user %><br>
+		    <p>Press Ctrl to select multiple users</p>
+		    <%= f.collection_select :users, User.all , :id , :name ,  {include_blank: false} , {multiple: true}    %>
+
+		</div>
+		<%= f.submit %>
+	<% end %>
+</h4>
+</div>
