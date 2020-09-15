@@ -22,7 +22,7 @@
 		    	<td><%= @cnt %></td>
 		    	<td><%= i.title %></td>
 		    	<td><%= i.start %> </td>
-		    	<td><%= i.end%> </td>
+		    	<td><%= i.finish%> </td>
 		    	<td><%= link_to 'View', '/interviews/'+String(i.id) , class: 'btn btn-success' %></td>
 		    	<td><%= link_to 'Edit', edit_interview_url(i) , class: 'btn btn-warning' %></td>
 		    	<td><%= link_to 'Delete', interviews_path+'/'+String(i.id), method: :delete, data: { confirm: 'Are you sure?' } , class: 'btn btn-danger' %></td>

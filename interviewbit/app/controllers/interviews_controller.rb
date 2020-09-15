@@ -2,7 +2,7 @@ class InterviewsController < ApplicationController
   def index
     @i=Interview.all
     @i=@i.sort_by{|i| i.start}.reverse
-    @i=@i.sort_by{|i| i.end}.reverse
+    @i=@i.sort_by{|i| i.finish}.reverse
   end
   def show
     @i=Interview.find(params[:id])
@@ -14,7 +14,7 @@ class InterviewsController < ApplicationController
   def create
     #params[:interview][:title]=strip(params[:interview][:title])
     params[:interview][:start]=params[:interview][:start]+" "+params[:interview][:start_time]
-    params[:interview][:end]=params[:interview][:end]+" "+params[:interview][:end_time]
+    params[:interview][:finish]=params[:interview][:finish]+" "+params[:interview][:finish_time]
     params[:interview][:users].shift
     @users=User.find(params[:interview][:users])
     @i=Interview.new(i_para)
@@ -39,16 +39,16 @@ class InterviewsController < ApplicationController
 
   def update
     params[:interview][:start]=params[:interview][:start]+" "+params[:interview][:start_time]
-    params[:interview][:end]=params[:interview][:end]+" "+params[:interview][:end_time]
+    params[:interview][:finish]=params[:interview][:finish]+" "+params[:interview][:finish_time]
     params[:interview][:users].shift
     users=User.find(params[:interview][:users])
     @i = Interview.find(params[:id])
-    puts users
-    puts @i.users
-    puts "hELLO wORLD\n\n\n"
-    @i.users << users unless @i.users.include? (users)
+    id=@i.id
+    query = "delete from interviews_users where interview_id = "+String(id)
+    ActiveRecord::Base.connection.execute(query)
+    @i.users << users
     if @i.update(i_para)
-        redirect_to interviews_path
+      redirect_to interviews_path
     else
       render 'edit'
     end
@@ -60,7 +60,7 @@ class InterviewsController < ApplicationController
     arg = Array.new
     arg.append(@i.title)
     arg.append(@i.start)
-    arg.append(@i.end)
+    arg.append(@i.finish)
     @u.each do |u|
       arg.append(u.email)
     end
@@ -70,6 +70,6 @@ class InterviewsController < ApplicationController
   end
   private 
     def i_para
-        params.require(:interview).permit(:title,:start,:users,:end)
+        params.require(:interview).permit(:title,:start,:users,:finish)
     end 
 end

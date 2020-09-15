@@ -26,7 +26,7 @@ class UserMailer < ApplicationMailer
 		@i=Interview.new
 		@i.title = params[:arg][0]
 		@i.start = params[:arg][1]
-		@i.end = params[:arg][2]
+		@i.finish = params[:arg][2]
 		n=params[:arg].length()
 		users=Array.new
 		j=3
