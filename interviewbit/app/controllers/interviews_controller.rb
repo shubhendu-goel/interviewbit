@@ -15,12 +15,19 @@ class InterviewsController < ApplicationController
     #params[:interview][:title]=strip(params[:interview][:title])
     params[:interview][:start]=params[:interview][:start]+" "+params[:interview][:start_time]
     params[:interview][:end]=params[:interview][:end]+" "+params[:interview][:end_time]
-    #params[:interview][:users].shift
+    params[:interview][:users].shift
     @users=User.find(params[:interview][:users])
     @i=Interview.new(i_para)
     @i.users << @users
     if @i.save
-      puts "Hello Wrld"
+      @u=User.joins(:interviews).where("interviews_users.interview_id = ?", @i.id)
+      arg = Array.new
+      arg.append(@i.id)
+      @u.each do |u|
+        arg.append(u.id)
+      end
+      puts arg
+      UserMailer.with(arg: arg).new_interview_email.deliver_later
       redirect_to '/'
     else
         render 'new'

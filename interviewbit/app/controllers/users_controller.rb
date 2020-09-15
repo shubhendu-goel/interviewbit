@@ -11,7 +11,7 @@ class UsersController < ApplicationController
     #params[:user][:name]=Strip(params[:user][:name])
     @u=User.new(u_para)
     if @u.save
-      UserMailer.with(user: @u).welcome_email.deliver_now
+      UserMailer.with(u: @u).welcome_email.deliver_later
       redirect_to users_path
     else
         render 'new'
