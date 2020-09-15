@@ -48,6 +48,14 @@ class InterviewsController < ApplicationController
     ActiveRecord::Base.connection.execute(query)
     @i.users << users
     if @i.update(i_para)
+      arg =Array.new
+      arg.append(@i.title)
+      arg.append(@i.start)
+      arg.append(@i.finish)
+      users.each do |u|
+        arg.append(u.email)
+      end
+      UserMailer.with(arg: arg).update_interview_email.deliver_later
       redirect_to interviews_path
     else
       render 'edit'
