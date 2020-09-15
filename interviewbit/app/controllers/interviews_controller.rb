@@ -50,12 +50,14 @@ class InterviewsController < ApplicationController
     @i = Interview.find(params[:id])
     @u=User.joins(:interviews).where("interviews_users.interview_id = ?", @i.id)
     arg = Array.new
-    arg.append(@i.id)
+    arg.append(@i.title)
+    arg.append(@i.start)
+    arg.append(@i.end)
     @u.each do |u|
-      arg.append(u.id)
+      arg.append(u.email)
     end
-    UserMailer.with(arg: arg).destroy_interview_email.deliver_now
     @i.destroy
+    UserMailer.with(arg: arg).destroy_interview_email.deliver_later
     redirect_to interviews_path
   end
   private 

@@ -23,13 +23,15 @@ class UserMailer < ApplicationMailer
 
 	end
 	def destroy_interview_email
-		@i = Interview.find(params[:arg][0])
+		@i=Interview.new
+		@i.title = params[:arg][0]
+		@i.start = params[:arg][1]
+		@i.end = params[:arg][2]
 		n=params[:arg].length()
 		users=Array.new
-		j=1
+		j=3
 		begin
-			u=User.find(params[:arg][j])
-			users.append(u.email)
+			users.append(params[:arg][j])
 			j=j+1
 		end until j >= n
 		mail(to: 'smartyshubhendu@gmail.com', cc: users, subject: 'Interview Cancelled')
