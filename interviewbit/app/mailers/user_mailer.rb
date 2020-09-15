@@ -16,14 +16,22 @@ class UserMailer < ApplicationMailer
 			users.append(u.email)
 			j=j+1
 		end until j >= n
-		mail(to: 'smartyshubhendu@gmail.com', cc: users, subject: 'Welcome to Interview Creation Portal')
+		mail(to: 'smartyshubhendu@gmail.com', cc: users, subject: 'New Interview Scheduled')
 	end
 	def update_interview_email
 		@i = params[:interview]
 
 	end
 	def destroy_interview_email
-		@i = params[:interview]
-
+		@i = Interview.find(params[:arg][0])
+		n=params[:arg].length()
+		users=Array.new
+		j=1
+		begin
+			u=User.find(params[:arg][j])
+			users.append(u.email)
+			j=j+1
+		end until j >= n
+		mail(to: 'smartyshubhendu@gmail.com', cc: users, subject: 'Interview Cancelled')
 	end
 end

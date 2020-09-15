@@ -26,7 +26,6 @@ class InterviewsController < ApplicationController
       @u.each do |u|
         arg.append(u.id)
       end
-      puts arg
       UserMailer.with(arg: arg).new_interview_email.deliver_later
       redirect_to '/'
     else
@@ -49,6 +48,13 @@ class InterviewsController < ApplicationController
 
   def destroy
     @i = Interview.find(params[:id])
+    @u=User.joins(:interviews).where("interviews_users.interview_id = ?", @i.id)
+    arg = Array.new
+    arg.append(@i.id)
+    @u.each do |u|
+      arg.append(u.id)
+    end
+    UserMailer.with(arg: arg).destroy_interview_email.deliver_now
     @i.destroy
     redirect_to interviews_path
   end
