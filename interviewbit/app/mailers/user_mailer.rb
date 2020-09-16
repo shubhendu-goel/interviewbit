@@ -1,7 +1,7 @@
 class UserMailer < ApplicationMailer
 	default from: 'goelshubhendu@gmail.com'
- 
-	def welcome_email
+	
+ 	def welcome_email
 		@u = params[:u]
 		@url  = 'http://localhost:3001'
 		mail(to: @u.email, subject: 'Welcome to Interview Creation Portal')

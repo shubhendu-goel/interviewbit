@@ -30,7 +30,8 @@ class InterviewsController < ApplicationController
       @u.each do |u|
         arg.append(u.id)
       end
-      UserMailer.with(arg: arg).new_interview_email.deliver_later
+      #UserMailer.with(arg: arg).new_interview_email.deliver_later
+      UserMailer.new_interview_email.perform_async(arg)
       redirect_to '/'
     else
         render 'new'
@@ -56,6 +57,8 @@ class InterviewsController < ApplicationController
         arg.append(u.email)
       end
       UserMailer.with(arg: arg).update_interview_email.deliver_later
+
+
       redirect_to interviews_path
     else
       render 'edit'
