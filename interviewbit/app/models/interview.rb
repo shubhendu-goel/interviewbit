@@ -3,11 +3,16 @@ class Interview < ApplicationRecord
 	validates :start, presence: true
 	validates :finish, presence: true
 	has_and_belongs_to_many :users , -> { distinct }
-	validates_associated :users
+	validate :atleast_2_users
 	validate :finish_after_start
 	validate :start_after_now
 	validate :available_users
 	private
+		def atleast_2_users
+			if users.size < 2
+				errors.add(:minimum , "2 users are required")
+			end 
+		end
 		def start_after_now
 			if Time.now.to_i > start.to_i	
 				errors.add(:start, "must be after the current datetime")

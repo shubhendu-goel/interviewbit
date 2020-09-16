@@ -26,20 +26,28 @@
 		  	
 		<div>
 			<%= f.label :start %>
-			<%= f.date_field :start ,   class: 'form-control' %>
+			<%= f.date_field :start,  class: 'form-control' %>
 		</div>
 		<div>
-			<%= f.label :Start_Time %>
-			<%= f.time_field :start_time, :value => f.object.start.strftime("%H:%M:%S"),  class: 'form-control' %>
+			<%= f.label :start_time %>
+			<% if @i.start? %>
+				<%= f.time_field :start_time,  :value => @i.start.strftime("%H:%M:%S"),  class: 'form-control' %>
+			<% else %>
+				<%= f.time_field :start_time,  class: 'form-control' %>
+			<%end%>
 		</div>
 		<div>
 			<%= f.label :finish %>
 			<%= f.date_field :finish,  class: 'form-control' %>
 		</div>
 		<div>
-			<%= f.label :Finish_Time %>
-			<%= f.time_field :finish_time, :value => f.object.finish.strftime("%H:%M:%S"),  class: 'form-control' %>
-		</div>
+			<%= f.label :finish_time %>
+			<% if @i.finish? %>
+				<%= f.time_field :finish_time,  :value => @i.finish.strftime("%H:%M:%S"),  class: 'form-control' %>
+			<% else %>
+				<%= f.time_field :finish_time,  class: 'form-control' %>
+			<%end%>
+		</div><br>
 		<div>
 			<%= f.label :user %><br>
 		    <p>Press Ctrl to select multiple users</p>
