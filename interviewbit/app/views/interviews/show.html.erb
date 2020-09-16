@@ -1,0 +1,29 @@
+<div class="container ml-auto mr-auto">
+
+	<div class="justify-content-center">
+		<h3><%= link_to 'Home', interviews_path , class: 'btn btn-success'%></h3>
+		<h1>View interview</h1>
+		<h4>
+			<div class="row">
+		    	<div class="col-4 border border-dark">
+		    	<%= @i.title %>	
+		    	</div>
+		    	<div class="col-4 border border-dark">
+		    		<h3> From <br><%= @i.start %> to <br><%= @i.finish %></h3>
+		    			
+		    	</div>
+		    	<div class="col-4 border border-dark">
+		    			<% @u.each do |u| %>
+		    				<%=link_to u.name , '/users/'+String(u.id) , class: 'form-control'%>
+		    			<% end %>
+		    		
+		    	</div>
+		    </div>
+		</h4>
+	    <br>
+	    	<h4>
+	    		<%= link_to 'Edit', edit_interview_url(@i) , class: 'btn btn-warning' %>
+	    		<%= link_to 'Delete', interview_path(@i), method: :delete, data: { confirm: 'Are you sure?' } , class: 'btn btn-danger' %>
+	    	</h4>
+	</div>
+</div>
