@@ -26,11 +26,6 @@
 		  	
 		<div>
 			<%= f.label :start %>
-			<% @st=""%>
-			<% @st=@st + @i.start.strftime("%d") %>
-			<% @st=@st +"-"+ @i.start.strftime("%m") %>
-			<% @st=@st + "-20" +@i.start.strftime("%y") %>
-			
 			<%= f.date_field :start ,   class: 'form-control' %>
 		</div>
 		<div>

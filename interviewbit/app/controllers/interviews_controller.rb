@@ -11,6 +11,9 @@ class InterviewsController < ApplicationController
   def edit
     @i = Interview.find(params[:id])
   end
+  def new
+    @i=Interview.new
+  end
   def create
     #params[:interview][:title]=strip(params[:interview][:title])
     params[:interview][:start]=params[:interview][:start]+" "+params[:interview][:start_time]
@@ -18,7 +21,8 @@ class InterviewsController < ApplicationController
     params[:interview][:users].shift
     @users=User.find(params[:interview][:users])
     @i=Interview.new(i_para)
-    @i.users << @users
+    @i.users = @users
+    puts @i.errors.full_messages
     if @i.save
       @u=User.joins(:interviews).where("interviews_users.interview_id = ?", @i.id)
       arg = Array.new
@@ -33,10 +37,6 @@ class InterviewsController < ApplicationController
     end
   end
 
-  def new
-    @i=Interview.new
-  end
-
   def update
     params[:interview][:start]=params[:interview][:start]+" "+params[:interview][:start_time]
     params[:interview][:finish]=params[:interview][:finish]+" "+params[:interview][:finish_time]
@@ -46,7 +46,7 @@ class InterviewsController < ApplicationController
     id=@i.id
     query = "delete from interviews_users where interview_id = "+String(id)
     ActiveRecord::Base.connection.execute(query)
-    @i.users << users
+    @i.users = users
     if @i.update(i_para)
       arg =Array.new
       arg.append(@i.title)
@@ -78,6 +78,6 @@ class InterviewsController < ApplicationController
   end
   private 
     def i_para
-        params.require(:interview).permit(:title,:start,:users,:finish)
+        params.require(:interview).permit(:title,:start,:finish)
     end 
 end

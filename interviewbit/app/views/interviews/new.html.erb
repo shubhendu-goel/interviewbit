@@ -1,6 +1,21 @@
 <div class="justify-content-center ml-auto mr-auto container">
 <h3><%= link_to 'Home', interviews_path , class: 'btn btn-success'%></h3>
 <h1>New Interview Creation Page</h1>
+<% if @i.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@i.errors.count, "error") %> prohibited
+        this Interview from being saved:
+      </h2>
+      <h3>
+      <ul>
+        <% @i.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+  </h3>
+    </div>
+    <%end%>
 <h4>
 	<%= form_with scope: :interview , url: interviews_path, local: true do |f| %>
 		<div>
