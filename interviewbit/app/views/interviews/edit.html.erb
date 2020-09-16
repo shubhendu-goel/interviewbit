@@ -1,6 +1,12 @@
 <div style="width: 50%;" class="ml-auto mr-auto">
 	<h3><%= link_to 'All Interviews', interviews_path ,class: 'btn btn-success' %></h3><br>
 <h2>Edit Interview using the below form</h2>
+	    <% flash.each do |type, msg| %>
+      <h2>
+        <%= msg %>
+      </h2>
+    <% end %>
+
 		<% if @i.errors.any? %>
     <div id="error_explanation">
       <h2>

@@ -3,10 +3,10 @@ class Interview < ApplicationRecord
 	validates :start, presence: true
 	validates :finish, presence: true
 	has_and_belongs_to_many :users , -> { distinct }
-	validate :atleast_2_users
+	validate :atleast_2_users , on: :create
 	validate :finish_after_start
 	validate :start_after_now
-	validate :available_users
+	validate :available_users , on: :create
 	private
 		def atleast_2_users
 			if users.size < 2
