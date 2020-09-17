@@ -37,7 +37,9 @@ class InterviewsController < ApplicationController
       if elapsed_minutes < 0 
         elapsed_minutes = 0
       end
-      UserMailer.reminder_email(@i.id).deliver_later(wait_until: elapsed_minutes.minutes.from_now)
+      job=UserMailer.reminder_email(@i.id).deliver_later(wait_until: elapsed_minutes.minutes.from_now)
+      jid=job.provider_job_id
+      insert_job(jid,@i.id)
       redirect_to '/'
     else
         render 'new'
@@ -92,12 +94,13 @@ class InterviewsController < ApplicationController
           if elapsed_minutes < 0 
             elapsed_minutes = 0
           end
-          puts "Kya hua"
-          puts UserMailer.reminder_email(@i.id).deliver_later(wait_until: elapsed_minutes.minutes.from_now)
-          puts "Chl rha ha"
+          delete_job(@i.id) 
+          job = UserMailer.reminder_email(@i.id).deliver_later(wait_until: elapsed_minutes.minutes.from_now)
+          jid=job.provider_job_id
+          insert_job(jid,@i.id)
           redirect_to interviews_path
         else
-          query = "delete from interviews_users where interview_id = "+String(id)
+          query = "delete from interviews_users where interview_id = "+String(@i.id)
           ActiveRecord::Base.connection.execute(query)
           users=User.find(cur_usr)
           @i.users << users
@@ -117,6 +120,7 @@ class InterviewsController < ApplicationController
     @u.each do |u|
       arg.append(u.email)
     end
+    delete_job(@i.id)
     @i.destroy
     UserMailer.with(arg: arg).destroy_interview_email.deliver_later
     redirect_to interviews_path
@@ -139,5 +143,21 @@ class InterviewsController < ApplicationController
           end
         end
         return ans
+    end
+    def insert_job(jid,iid)
+      query = "insert into interviews_jobs values('" + jid + "'," + String(iid) +")"
+      ActiveRecord::Base.connection.execute(query)
+    end
+    def delete_job(iid)
+      query = "select * from interviews_jobs where interview_id =" + String(iid)
+      rows = ActiveRecord::Base.connection.execute(query)
+      rows.each do |r|
+        jid=r[0]
+        puts jid
+        job = Sidekiq::ScheduledSet.new.find_job(jid)
+        job.delete
+      end
+      query = "delete from interviews_jobs where interview_id =" + String(iid)
+      ActiveRecord::Base.connection.execute(query)
     end
 end
