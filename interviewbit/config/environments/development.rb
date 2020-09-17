@@ -35,7 +35,6 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   
   config.action_mailer.perform_caching = false
-  config.active_job.queue_adapter = :sidekiq
   
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
@@ -53,10 +52,6 @@ Rails.application.configure do
 
   }
   config.action_mailer.default_url_options = { :host => "localhost:3001" }
-  config.active_job.queue_adapter = :sidekiq
-
-  config.active_job.queue_name_prefix = "mysite"
-  config.active_job.queue_name_delimiter = "_"
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 

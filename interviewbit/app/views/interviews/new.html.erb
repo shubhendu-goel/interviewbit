@@ -17,7 +17,7 @@
     </div>
     <%end%>
 <h4>
-	<%= form_with scope: :interview , url: interviews_path, local: true do |f| %>
+	<%= form_with(model: @i, local: true) do |f| %>
 		<div>
 			<%= f.label :title %>
 			<%= f.text_field :title, class: 'form-control' %>
@@ -28,7 +28,11 @@
 		</div>
 		<div>
 			<%= f.label :start_time %>
-			<%= f.time_field :start_time,  class: 'form-control' %>
+			<% if @i.start? %>
+				<%= f.time_field :start_time,  :value => @i.start.strftime("%H:%M:%S"),  class: 'form-control' %>
+			<% else %>
+				<%= f.time_field :start_time,  class: 'form-control' %>
+			<%end%>
 		</div>
 		<div>
 			<%= f.label :finish %>
@@ -36,7 +40,11 @@
 		</div>
 		<div>
 			<%= f.label :finish_time %>
-			<%= f.time_field :finish_time,  class: 'form-control' %>
+			<% if @i.finish? %>
+				<%= f.time_field :finish_time,  :value => @i.finish.strftime("%H:%M:%S"),  class: 'form-control' %>
+			<% else %>
+				<%= f.time_field :finish_time,  class: 'form-control' %>
+			<%end%>
 		</div><br>
 		<div>
 			<%= f.label :user %><br>
