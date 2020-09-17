@@ -1,12 +1,13 @@
 class InterviewsController < ApplicationController
   def index
+
     @i=Interview.all
     @i=@i.sort_by{|i| i.start}.reverse
     @i=@i.sort_by{|i| i.finish}.reverse
   end
   def show
     @i=Interview.find(params[:id])
-    @u=User.joins(:interviews).where("interviews_users.interview_id = ?", params[:id]).distinct
+    @u=@i.users  
   end
   def edit
     @i = Interview.find(params[:id])
@@ -29,7 +30,14 @@ class InterviewsController < ApplicationController
       @u.each do |u|
         arg.append(u.id)
       end
-      UserMailer.with(arg: arg).new_interview_email.deliver_later
+      UserMailer.new_interview_email(@i.id).deliver_later
+      cur_tim=Time.now.year*(60*24*365)+ (Time.now.month)*(60*24*30) + (Time.now.day)*(60*24) + (Time.now.hour)*(24) +(Time.now.strftime("%M").to_i)
+      str_tim=@i.start.year*(60*24*365)+ (@i.start.month)*(60*24*30) + (@i.start.day)*(60*24) + (@i.start.hour)*(24) +(@i.start.strftime("%M").to_i)
+      elapsed_minutes=str_tim-cur_tim- 720
+      if elapsed_minutes < 0 
+        elapsed_minutes = 0
+      end
+      UserMailer.reminder_email(@i.id).deliver_later(wait_until: elapsed_minutes.minutes.from_now)
       redirect_to '/'
     else
         render 'new'
@@ -77,7 +85,16 @@ class InterviewsController < ApplicationController
           users.each do |u|
             arg.append(u.email)
           end
-          UserMailer.with(arg: arg).update_interview_email.deliver_later
+          UserMailer.update_interview_email(@i.id).deliver_later
+          cur_tim=Time.now.year*(60*24*365)+ (Time.now.month)*(60*24*30) + (Time.now.day)*(60*24) + (Time.now.hour)*(24) +(Time.now.strftime("%M").to_i)
+          str_tim=@i.start.year*(60*24*365)+ (@i.start.month)*(60*24*30) + (@i.start.day)*(60*24) + (@i.start.hour)*(24) +(@i.start.strftime("%M").to_i)
+          elapsed_minutes=str_tim-cur_tim-720
+          if elapsed_minutes < 0 
+            elapsed_minutes = 0
+          end
+          puts "Kya hua"
+          puts UserMailer.reminder_email(@i.id).deliver_later(wait_until: elapsed_minutes.minutes.from_now)
+          puts "Chl rha ha"
           redirect_to interviews_path
         else
           query = "delete from interviews_users where interview_id = "+String(id)

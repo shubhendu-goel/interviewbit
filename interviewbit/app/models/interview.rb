@@ -14,26 +14,28 @@ class Interview < ApplicationRecord
 			end 
 		end
 		def start_after_now
-			if Time.now.to_i > start.to_i	
+			if Time.now > (start.strftime("%Y-%m-%d %H:%M:%S") + " UTC")	
 				errors.add(:start, "must be after the current datetime")
 			end
 		end
 		def finish_after_start
-			if start.to_i > finish.to_i
+			if (start.strftime("%Y-%m-%d %H:%M:%S") + " UTC") > (finish.strftime("%Y-%m-%d %H:%M:%S") + " UTC")
 				errors.add(:finish, "must be after the start datetime")
 			end
 		end
 		def available_users
+			str=start.strftime("%Y-%m-%d %H:%M:%S") + " UTC"
+			fns=finish.strftime("%Y-%m-%d %H:%M:%S") + " UTC"
 			users.each do |u|
 				uid=u.id
 				inter = Interview.joins(:users).where("interviews_users.user_id = ?", uid )
 				inter.each do |i|
-					st=i.start.to_i
-					fs=i.finish.to_i
-					if ((st>=start.to_i && st<=finish.to_i) || (fs>=start.to_i && fs<=finish.to_i) || (st<=start.to_i && fs>=finish.to_i)) 
+					st=i.start
+					fs=i.finish
+					if ((st>=str && st<=fns) || (fs>=str && fs<=fns) || (st<=str && fs>=fns)) 
 						errors.add(:user, String(u.name)+ " Unavailable")	
 					end
 				end
-			end			
+			end
 		end
 end
