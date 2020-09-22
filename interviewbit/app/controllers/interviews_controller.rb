@@ -1,6 +1,5 @@
 class InterviewsController < ApplicationController
   def index
-
     @i=Interview.all
     @i=@i.sort_by{|i| i.start}.reverse
     @i=@i.sort_by{|i| i.finish}.reverse

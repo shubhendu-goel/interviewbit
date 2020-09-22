@@ -14,10 +14,7 @@ class Home extends Component {
 	}*/
 	render(){
 		return(
-			<div> Hello World, This is a react application 
-			
-			<Jumbotron/>
-			</div>
+			<div> <Jumbotron/></div>
 			
 		)
 	}
