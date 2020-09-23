@@ -50,6 +50,11 @@ ActiveRecord::Schema.define(version: 2020_09_15_171155) do
     t.datetime "finish"
   end
 
+  create_table "interviews_jobs", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+    t.string "job_id", limit: 256
+    t.bigint "interview_id"
+  end
+
   create_table "interviews_users", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "interview_id", null: false
