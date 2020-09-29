@@ -1,8 +1,9 @@
 import React from 'react'
-//import { Route,Switch } from 'react-router-dom'
+import { Route,Switch } from 'react-router-dom'
 const User = () => {
 	return (
 		<div> This is user controller </div>
+		
 		/*
 		<Switch>
 		<Route exact path="/" component={Users} />
