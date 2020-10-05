@@ -1,8 +1,9 @@
 import  React, { useState , useEffect , Fragment } from 'react'
-//import { Route,Switch } from 'react-router-dom'
+import { Route,Switch,Link } from 'react-router-dom'
 import axios from 'axios'
 import User from './User'
 import Interview from './Interview'
+import NewForm from '../User/NewForm'
 const Users = () => {
 	const [users, setUsers] =useState([])
 	const [interviews, setInterviews] =useState([])
@@ -44,7 +45,7 @@ const Users = () => {
 	})
 	return (
 		<Fragment>
-		<div className="justify-content-center">
+		<div className="justify-content-center ml-auto mr-auto">
 		<h2>All Interviews</h2>
 		<table className="container table table-stripped">
 		<thead>
@@ -54,6 +55,8 @@ const Users = () => {
 		</thead>
 		<tbody>{interviews_list}</tbody>
 		</table>
+		<h2>Create New User</h2>
+		<NewForm/>
 		<h2>All Users</h2>
 		<table className="container table table-stripped">
 		<thead>

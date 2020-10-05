@@ -12,7 +12,9 @@ module Api
         user=User.find(params[:id])
         render json: UserSerializer.new(user).serialized_json
       end
-
+      def new
+        render json: {name: 123}
+      end
       def create
         user=User.new(u_para)
         if user.save

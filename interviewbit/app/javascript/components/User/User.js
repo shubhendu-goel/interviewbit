@@ -2,7 +2,7 @@ import React , {useState,useEffect} from 'react'
 import { Route,Switch,Link } from 'react-router-dom'
 import axios from 'axios'
 import UserCard from './UserCard'
-
+import NewForm from './NewForm'
 const User= (props) => {
 	const [ user , setUser ] = useState({})
 	const [interviews, setInterviews] = useState({})
@@ -22,12 +22,11 @@ const User= (props) => {
 	)
 	return (
 		<div className="container">
-	{
-		loaded && 
+	{	loaded && 
 		<UserCard
 			attributes={user.attributes}
 		/>
-	}		
+	}
 	<h4><Link className="btn btn-success" to={`/`}>Home</Link></h4>	
 		</div>	
 	)
